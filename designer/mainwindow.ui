@@ -682,18 +682,7 @@ border-radius:10px;</string>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_10">
                <item>
-                <layout class="QVBoxLayout" name="verticalLayout_13">
-                 <item>
-                  <widget class="QSlider" name="horizontalSlider_Pista">
-                   <property name="styleSheet">
-                    <string notr="true"/>
-                   </property>
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                  </widget>
-                 </item>
-                </layout>
+                <layout class="QVBoxLayout" name="verticalLayout_13"/>
                </item>
                <item>
                 <layout class="QHBoxLayout" name="horizontalLayout_11">
@@ -834,6 +823,9 @@ background-color: rgb(229, 229, 229);</string>
                  <layout class="QGridLayout" name="gridLayout">
                   <item row="1" column="0">
                    <widget class="QSlider" name="horizontalSlider_Reverb_Retraso">
+                    <property name="maximum">
+                     <number>1000</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -870,7 +862,7 @@ background-color: rgb(229, 229, 229);</string>
                        </size>
                       </property>
                       <property name="digitCount">
-                       <number>2</number>
+                       <number>3</number>
                       </property>
                      </widget>
                     </item>
@@ -938,6 +930,9 @@ background-color: rgb(229, 229, 229);</string>
                   </item>
                   <item row="2" column="0">
                    <widget class="QSlider" name="horizontalSlider_Echo_Retraso">
+                    <property name="maximum">
+                     <number>1000</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -964,7 +959,7 @@ background-color: rgb(229, 229, 229);</string>
                        </size>
                       </property>
                       <property name="digitCount">
-                       <number>2</number>
+                       <number>3</number>
                       </property>
                      </widget>
                     </item>
@@ -1032,6 +1027,9 @@ background-color: rgb(229, 229, 229);</string>
                   </item>
                   <item row="2" column="0">
                    <widget class="QSlider" name="horizontalSlider_Flanger_Retraso">
+                    <property name="maximum">
+                     <number>1000</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -1042,6 +1040,9 @@ background-color: rgb(229, 229, 229);</string>
                   </item>
                   <item row="2" column="1">
                    <widget class="QSlider" name="horizontalSlider_Flanger_Frecuencia">
+                    <property name="maximum">
+                     <number>2000</number>
+                    </property>
                     <property name="orientation">
                      <enum>Qt::Horizontal</enum>
                     </property>
@@ -1092,7 +1093,7 @@ background-color: rgb(229, 229, 229);</string>
                        </size>
                       </property>
                       <property name="digitCount">
-                       <number>2</number>
+                       <number>3</number>
                       </property>
                      </widget>
                     </item>
@@ -1116,7 +1117,7 @@ background-color: rgb(229, 229, 229);</string>
                        </size>
                       </property>
                       <property name="digitCount">
-                       <number>2</number>
+                       <number>3</number>
                       </property>
                      </widget>
                     </item>
