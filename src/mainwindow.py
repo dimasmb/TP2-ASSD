@@ -1,5 +1,5 @@
 # PyQt5 modules
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHBoxLayout, QLabel, QSlider, QCheckBox
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHBoxLayout, QLabel, QSlider, QCheckBox, QComboBox
 from PyQt5 import QtCore
 
 # Project modules
@@ -134,7 +134,7 @@ class MainWindow(QMainWindow, Ui_Sintetizador):
         # label = QLabel(self.scrollAreaWidgetContents)
         label = QCheckBox(self.scrollAreaWidgetContents)
         label.setChecked(True)
-        label.setText(str(n) + ". " +track_name)
+        label.setText("Track "+str(n))
         horizontalLayout.addWidget(label)
 
         horizontalSlider = QSlider(self.scrollAreaWidgetContents)
@@ -142,6 +142,14 @@ class MainWindow(QMainWindow, Ui_Sintetizador):
         horizontalSlider.setMaximum(100)
         horizontalSlider.setValue(100)
         horizontalLayout.addWidget(horizontalSlider)
+
+        comboBox = QComboBox(self.scrollAreaWidgetContents)
+        # comboBox.minimumSize(0, 0)
+        # comboBox.resize(0,0)
+        comboBox.addItem("")
+        # comboBox.addItem("Electric Guitar")
+
+        horizontalLayout.addWidget(comboBox)
 
         self.verticalLayout_3.addLayout(horizontalLayout)
         return horizontalSlider
@@ -197,7 +205,7 @@ class MainWindow(QMainWindow, Ui_Sintetizador):
                 if msg.type=='note_on':
                     msg.velocity = int(msg.velocity*volumelist[a]/100)
 
-        for a in tracklist:
+        for a in reversed(tracklist):
             del self.midi_synth.tracks[a]
 
         self.midi_synth.save("nowSynth.mid")
