@@ -76,12 +76,20 @@ class Additive():
         self.time = np.linspace(0., self.stepLength, self.dataInTime.shape[0])
 
         if self.doINeedToPlot == True:
+            plt.figure()
             plt.plot(self.time, self.dataInTime, label= self.sampleName.replace('.wav',''), color='#77DD77')
             plt.legend()
             plt.grid()
             plt.title('Signal in Time')
             plt.xlabel("Time [s]")
             plt.ylabel("Amplitude")
+            plt.show()
+
+            plt.figure()
+            plt.specgram(self.dataInTime, self.fs)
+            plt.grid(True, which='both')
+            plt.xlabel("Time [s]")
+            plt.ylabel("Frequency [Hz]")
             plt.show()
 
     ################################################################
