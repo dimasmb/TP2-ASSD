@@ -11,13 +11,24 @@ def play_music(midi_filename):
 
 
 file=mido.MidiFile('La_pantera_rosa.mid')
-for i, track in enumerate(file.tracks):
-    print('Track {}: {}'.format(i, track.name)) #Me fijo los tracks que tiene
-    for msg in track:
-        if msg.type == 'note_on':   #Hay mensajes que no coresponden a una nota
-            msg.note=msg.note #+12 #Aca puedo subir o bajar las notas de todos los mensajes
+newmidi=mido.MidiFile(type=file.type, ticks_per_beat=file.ticks_per_beat)
 
-file.save('newsong.mid')    #guardo el midi modificado con un nuevo nombre
+for i, track in enumerate(file.tracks):
+    # print('Track {}: {}'.format(i, track.name)) #Me fijo los tracks que tiene
+    newmidi.tracks.append(track)
+    newtrack=mido.MidiTrack(track)
+    newmidi.tracks.append(newtrack)
+
+for i, track in enumerate(newmidi.tracks):
+    print('Track {}: {}'.format(i, track.name))
+    if i%2:
+        first=True
+        for msg in track:
+            if msg.type=='note_on' and msg.velocity==0:
+                # first=False
+                msg.time=msg.time+5
+
+newmidi.save('newsong.mid')    #guardo el midi modificado con un nuevo nombre
 midi_filename = 'newsong.mid'
 #------------------------------------------------------------------
 # Configuro el mixer de pygame
