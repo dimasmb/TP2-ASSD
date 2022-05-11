@@ -1,5 +1,5 @@
 # PyQt5 modules
-from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHBoxLayout, QLabel, QSlider
+from PyQt5.QtWidgets import QMainWindow, QFileDialog, QHBoxLayout, QLabel, QSlider, QCheckBox, QComboBox
 from PyQt5 import QtCore
 
 # Project modules
@@ -21,6 +21,7 @@ class MainWindow(QMainWindow, Ui_Sintetizador):
         self.midi_file = mido.MidiFile()
         self.play_from_start=True
         self.midi_filename=""
+        self.midi_synth=""
         self.tracks_sliders=[]
         self.reverb_retraso = 0
         self.reverb_ganancia = 0
@@ -121,21 +122,34 @@ class MainWindow(QMainWindow, Ui_Sintetizador):
         self.midi_file = mido.MidiFile(self.midi_filename)
         self.play_from_start=True
         self.PlayOrPause()
+        pygame.mixer.music.unload()
         pygame.mixer.music.load(self.midi_filename)
         self.clearTracks()
         for i, track in enumerate(self.midi_file.tracks):
             self.tracks_sliders.append(self.buildTrack(i, track.name))
+
     def buildTrack(self, n, track_name):
         horizontalLayout = QHBoxLayout()
 
-        label = QLabel(self.scrollAreaWidgetContents)
-        label.setText(str(n) + ". " +track_name)
+        # label = QLabel(self.scrollAreaWidgetContents)
+        label = QCheckBox(self.scrollAreaWidgetContents)
+        label.setChecked(True)
+        label.setText("Track "+str(n))
         horizontalLayout.addWidget(label)
 
         horizontalSlider = QSlider(self.scrollAreaWidgetContents)
         horizontalSlider.setOrientation(QtCore.Qt.Horizontal)
-        horizontalSlider.setValue(99)
+        horizontalSlider.setMaximum(100)
+        horizontalSlider.setValue(100)
         horizontalLayout.addWidget(horizontalSlider)
+
+        comboBox = QComboBox(self.scrollAreaWidgetContents)
+        # comboBox.minimumSize(0, 0)
+        # comboBox.resize(0,0)
+        comboBox.addItem("")
+        # comboBox.addItem("Electric Guitar")
+
+        horizontalLayout.addWidget(comboBox)
 
         self.verticalLayout_3.addLayout(horizontalLayout)
         return horizontalSlider
@@ -145,6 +159,7 @@ class MainWindow(QMainWindow, Ui_Sintetizador):
         for i in reversed(range(self.verticalLayout_3.count())):
             for a in reversed(range(self.verticalLayout_3.itemAt(i).count())):
                 self.verticalLayout_3.itemAt(i).itemAt(a).widget().setParent(None)
+            self.verticalLayout_3.itemAt(i).setParent(None)
 
     def GuardarClicked(self):
         save_filename, save_type = QFileDialog.getSaveFileName(self, "Save file", "", "MIDI(*.mid);;WAV(*.wav);;MP3(*.mp3)")
@@ -177,6 +192,27 @@ class MainWindow(QMainWindow, Ui_Sintetizador):
         self.PlayOrPause()
 
     def Sintetizar(self):
+        tracklist=[]
+        volumelist=[]
+        for i in range(self.verticalLayout_3.count()):
+            if not self.verticalLayout_3.itemAt(i).itemAt(0).widget().isChecked():
+                tracklist.append(i)
+            volumelist.append(self.verticalLayout_3.itemAt(i).itemAt(1).widget().value())
+        self.midi_synth=mido.MidiFile(self.midi_filename)
+
+        for a, track in enumerate(self.midi_synth.tracks):
+            for msg in track:
+                if msg.type=='note_on':
+                    msg.velocity = int(msg.velocity*volumelist[a]/100)
+
+        for a in reversed(tracklist):
+            del self.midi_synth.tracks[a]
+
+        self.midi_synth.save("nowSynth.mid")
+        self.play_from_start = True
+        self.PlayOrPause()
+        pygame.mixer.music.unload()
+        pygame.mixer.music.load("nowSynth.mid")
         if self.checkBox_Reverb.isChecked():
             self.reverb_retraso = self.horizontalSlider_Reverb_Retraso.value()
             self.reverb_ganancia = self.horizontalSlider_Reverb_Ganancia.value()
