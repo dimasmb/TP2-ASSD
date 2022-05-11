@@ -30,19 +30,19 @@ class Additive():
         elif self.instrumentType == 'sax':
             self.f0s.append(252)
             self.f0sAmplitudes.append(262.63)
-            self.harmonicCount = 8
+            self.harmonicCount = 20
             self.myDelay = 39071
 
         elif self.instrumentType == 'trumpet':
             self.f0s.append(441.1)
             self.f0sAmplitudes.append(1495.3)
-            self.harmonicCount = 8
+            self.harmonicCount = 15
             self.myDelay = 42110
 
         elif self.instrumentType == 'violin':
             self.f0s.append(436.84)
             self.f0sAmplitudes.append(1204.02)
-            self.harmonicCount = 8
+            self.harmonicCount = 16
             self.myDelay = 43515
 
         self.wavFilePath = instrument.Name + '.wav'                 #FileName
